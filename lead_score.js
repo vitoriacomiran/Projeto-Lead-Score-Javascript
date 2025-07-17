@@ -1,66 +1,69 @@
-const attrs = $json;
-
-// Extrai os campos com o nome correto
-const segmento = attrs.segmento_da_empresa || "";
-const cargo = attrs.job_title || "";
-const licencas = attrs.quantidade_de_licenças || "";
-
-const segmentos = {
-  "Software e Cloud": 15,
-  "Comércio": 13,
-  "Serviços em geral": 11,
-  "Serviços e Estética": 9,
-  "Indústria Geral": 7,
-  "Financeiro e Serviços Relacionados": 5
+const attrs = {
+  "SEGMENTO_EMPRESA": "Indústria Geral",
+  "JOB_TITLE": "Analista",
+  "QUANTIDADE_LICENÇAS": "4 a 8"
 };
 
-const cargos = {
-  "Gerente": 15,
-  "Diretor": 13,
-  "Analista": 11,
-  "Coordenador": 9,
-  "Supervisor": 7,
-  "Assistente": 5
+const pontos_segmentos = {
+    "Software e Cloud" : 15,
+    "Comércio" : 13,
+    "Serviços em geral" : 11,
+    "Serviços e Estética" : 9,
+    "Indústria Geral" : 7,
+    "Financeiro e Serviços Relacionados" : 5,
+    "Outros" : 3
 };
 
-const licencasPontuacao = {
+const pontos_cargos = {
+    "Gerente" : 15,
+    "Diretor" : 13,
+    "Analista" : 11,
+    "Coordenador" : 9,
+    "Supervisor" : 7,
+    "Assistente" : 5,
+    "Outros" : 3
+};
+
+const pontos_licencas = {
   "1 a 3": 10,
   "4 a 8": 30,
   "9 a 15": 50,
-  "Acima de 15": 70
+  "16+": 70
 };
 
-// Pesos
+const segmento = attrs["SEGMENTO_EMPRESA"] || "";
+const cargo = attrs["JOB_TITLE"] || "";
+const licencas = attrs["QUANTIDADE_LICENÇAS"] || "";
+
+// Calcula a pontuação
+const segmento_score = pontos_segmentos[segmento] || 3;
+const cargo_score = pontos_cargos[cargo] || 3;
+const qtd_licencas_score = pontos_licencas[licencas] || 10;
+
 const pesos = {
-  segmento: 0.15,
-  cargo: 0.15,
-  licencas: 0.70
+  segmentos: 0.15,
+  cargos: 0.15,
+  quantidade_licencas: 0.70
 };
 
-const segScore = segmentos[segmento] || 3;
-const cargoScore = cargos[cargo] || 3;
-const licencaScore = licencasPontuacao[licencas] || 10;
+const score_total = (
+  (segmento_score / 15) * pesos.segmentos +
+  (cargo_score / 15) * pesos.cargos +
+  (qtd_licencas_score / 70) * pesos.quantidade_licencas
+) * 100;
 
-// Cálculo do score total
-const scoreTotal = (
-  (segScore / 15) * pesos.segmento  +
-  (cargoScore / 15) * pesos.cargo +
-  (licencaScore / 70) * pesos.licencas * 100
-);
-
-let classificacao;
-if (scoreTotal <= 20) {
-  classificacao = "Lead Frio";
-} else if (scoreTotal <= 50) {
-  classificacao = "Lead Morno";
-} else if (scoreTotal <= 80) {
-  classificacao = "Lead Quente";
-} else {
+let classificacao = "Lead Frio";
+if (score_total >= 70) {
   classificacao = "Lead Muito Quente";
+} else if (score_total >= 50) {
+  classificacao = "Lead Quente";
+} else if (score_total >= 20) {
+  classificacao = "Lead Morno";
+} else {
+  classificacao = "Lead Frio";
 }
 
-// Retorna o resultado para o n8n
-return {
-  lead_score: Number(scoreTotal.toFixed(2)),
-  classificacao
-};
+// Exibe o resultado 
+console.log("Score Total:", score_total.toFixed(2));
+console.log("Classificação:", classificacao);
+
