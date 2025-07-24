@@ -63,7 +63,6 @@ if (score_total >= 70) {
   classificacao = "Lead Frio";
 }
 
-// Exibe o resultado 
 console.log("Score Total:", score_total.toFixed(2));
 console.log("Classificação:", classificacao);
 

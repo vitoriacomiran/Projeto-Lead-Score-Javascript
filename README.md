@@ -20,7 +20,7 @@ As mesmas regras aplicadas no projeto em Python foram mantidas.
 
 ---
 
-## Tecnologias
+## Tecnologia
 
 - [x] JavaScript (Vanilla)
 
