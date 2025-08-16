@@ -1,6 +1,6 @@
 # Lead Score com JavaScript
 
-Este projeto implementa um sistema de **Lead Score** utilizando a linguagem **JavaScript**, baseado no mesmo conceito aplicado anteriormente em Python (Projeto 10 do repositório).
+Este projeto implementa um sistema de **Lead Score** utilizando a linguagem **JavaScript**, baseado no mesmo conceito aplicado anteriormente em Python (Repositório Python).
 
 ## Objetivo
 
